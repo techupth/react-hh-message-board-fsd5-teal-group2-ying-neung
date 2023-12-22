@@ -3,6 +3,11 @@ import { useState } from "react";
 function MessageBoard() {
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState("");
+  const [placeholder, setPlaceholder] = useState("Enter message here");
+
+  const handleInputFocus = () => {
+    setPlaceholder(""); // เมื่อโฟกัสไปยัง input จะเปลี่ยน placeholder เป็นค่าว่าง
+  };
 
   const handleInputChange = (event) => {
     setInput(event.target.value);
@@ -11,6 +16,8 @@ function MessageBoard() {
   const addMessage = () => {
     const newMessage = [...messages, input];
     setMessages(newMessage);
+    setInput(""); // ล้าง input หลังจากกด submit
+    setPlaceholder("Enter message here"); // เปลี่ยนค่า placeholder กลับเป็นข้อความเริ่มต้นหลังจากกด submit
   };
 
   const deleteMessage = (messageIndex) => {
@@ -28,9 +35,10 @@ function MessageBoard() {
             id="message-text"
             name="message-text"
             type="text"
-            placeholder="Enter message here"
+            placeholder={placeholder}
             value={input}
             onChange={handleInputChange}
+            onFocus={handleInputFocus}
           />
         </label>
         <button className="submit-message-button" onClick={addMessage}>
